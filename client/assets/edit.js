@@ -25,5 +25,15 @@ $(document).ready(function () {
     const completeStatus = $("#completedCheck").prop("checked")
       ? "true"
       : "false";
+
+    $.ajax({
+      type: "PATCH",
+      url: "/api",
+      data: { todoText: editedText, todoId: id, todoCompleted: completeStatus },
+    })
+      .then(() => {
+        window.location.href = "/";
+      })
+      .catch((err) => console.log(err));
   });
 });
