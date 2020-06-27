@@ -1,12 +1,42 @@
 $(document).ready(function () {
-  $.ajax({
-    type: "GET",
-    url: "/api",
-  }).then((allTodos) => {
-    console.log(allTodos);
+  // $.ajax({
+  //   type: "GET",
+  //   url: "/api",
+  // }).then((allTodos) => {
+  //   console.log(allTodos);
+  //   renderTodos(allTodos);
+  // });
+
+  getTodos().then((allTodos) => {
     renderTodos(allTodos);
   });
+
+  $("#submitBtn").on("click", () => {
+    const todoText = $("#todoText").val();
+    $("#todoText").val("");
+
+    $.ajax({
+      type: "POST",
+      url: "/api",
+      data: { text: todoText },
+    }).then((res) => {
+      console.log(res);
+    });
+  });
 });
+
+const getTodos = () => {
+  return new Promise((resolve, reject) => {
+    $.ajax({
+      type: "GET",
+      url: "/api",
+    })
+      .then((res) => {
+        resolve(res);
+      })
+      .catch((err) => reject(err));
+  });
+};
 
 const renderTodos = (arr) => {
   $("#card-container").html("");
