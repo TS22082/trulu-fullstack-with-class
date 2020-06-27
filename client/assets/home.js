@@ -1,12 +1,4 @@
 $(document).ready(function () {
-  // $.ajax({
-  //   type: "GET",
-  //   url: "/api",
-  // }).then((allTodos) => {
-  //   console.log(allTodos);
-  //   renderTodos(allTodos);
-  // });
-
   getTodos().then((allTodos) => {
     renderTodos(allTodos);
   });
@@ -19,8 +11,10 @@ $(document).ready(function () {
       type: "POST",
       url: "/api",
       data: { text: todoText },
-    }).then((res) => {
-      console.log(res);
+    }).then(() => {
+      getTodos()
+        .then((allTodos) => renderTodos(allTodos))
+        .catch((err) => console.log(err));
     });
   });
 });
